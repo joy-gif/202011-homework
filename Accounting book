@@ -1,0 +1,35 @@
+import xlwings as xw
+import time
+wb = xw.Book("price_data.xlsx")
+sheet = wb.sheets["daily"]
+
+food = fun = taxi = 0
+
+print("歡迎來到你最愛的記帳簿！ ")
+date = input("請輸入今日日期ex.2020/01/01 ")
+
+while True:
+    while True:
+        user_write = float(input("請問要輸入金額的項目： (1) 飲食 (2) 娛樂 (3) 交通 (4) 已填寫完成："))
+
+        if user_write == 1 :
+            food = float(input("請輸入今日飲食金額$ "))
+        elif user_write == 2 :
+            fun = float(input("請輸入今日娛樂花費$ "))
+        elif user_write == 3 :
+            taxi = float(input("請輸入今日交通花費$ "))
+        else:
+            print("謝謝!")    
+            if user_write in [4]:
+                break
+                    
+    print("飲食 " + str(food) + "娛樂 " + str(fun) + "交通 " + str(taxi))
+    computer_ask = input("請問以上的數字是正確的嗎? :【1】是 【2】否")
+    if computer_ask in ["1"]:
+        break
+       
+last_row = sheet.range("A1").end("down").row
+sheet.range(f"A{last_row+1}").value = date
+sheet.range(f"B{last_row+1}").value = food
+sheet.range(f"C{last_row+1}").value = fun
+sheet.range(f"D{last_row+1}").value = taxi
